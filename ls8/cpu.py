@@ -17,10 +17,10 @@ class CPU:
             0b10100010: self.MUL,
             0b01000111: self.PRN,
             0b00000001: self.HLT,
-            # 0b01000101: self.PUSH,
-            # 0b01000110: self.POP,
-            # 0b01010000: self.CALL,
-            # 0b00010001: self.RET,
+            0b01000101: self.PUSH,
+            0b01000110: self.POP,
+            0b01010000: self.CALL,
+            0b00010001: self.RET,
             0b10100000: self.ADD,
             0b10100111: self.CMP,
             0b01010101: self.JEQ,
@@ -42,6 +42,28 @@ class CPU:
             self.pc = self.reg[op1]
         else:
             self.pc += 2
+
+
+    def CALL(self, op1=None, op2=None):
+        self.reg[self.sp] -= 1
+        self.ram_write(self.reg[self.sp], self.pc + 2)
+        self.pc =self.reg[op1]
+
+
+    def RET(self, op1=None, op2=None):
+        self.pc = self.ram_read(self.reg[self.sp])
+        self.reg[self.sp] += 1
+
+
+    def PUSH(self, op1=None, op2=None):
+        self.reg[self.sp] -= 1
+        self.ram_write(self.reg[self.sp], self.reg[op1])
+        self.pc += 2
+
+    def POP(self, op1=None, op2=None):
+        self.reg[op1] = self.ram_read(self.reg[self.sp])
+        self.reg[self.sp] += 1
+        self.pc += 2
 
     def ram_read(self, op1=None):
         return self.ram[op1]
