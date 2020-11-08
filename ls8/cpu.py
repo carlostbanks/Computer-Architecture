@@ -165,5 +165,5 @@ class CPU:
             if instruction in self.instr:
                 self.instr[instruction](self.ram_read(self.pc + 1), self.ram_read(self.pc + 2))
             else:
-                print("Unknown Instruction Command")
+                print("Unknown Instruction Command ")
                 self.HLT()
